@@ -1,3 +1,11 @@
+'''*******************************************************************
+ @brief   o programa deve ser capaz de receber, identificar, tratar e responder um objeto JSON via MQTT, alterando os campos necessarios quando a mensagem for designada para o usuario e lidando com o feedback.
+ @file    json mqtt.py (main)
+ @author  Artur Ritzel
+ @date    novembro/2023
+ @version 18
+********************************************************************'''
+
 # importa a biblioteca paho.mqtt.client, que é utilizada para criar e gerenciar conexões mqtt
 import paho.mqtt.client as mqtt
 # importa a biblioteca json, utilizada para manipulação de objetos no formato json
@@ -102,9 +110,9 @@ def on_message(client, userdata, message):
                 elif objeto_resposta['tempExt']['unidade'] == 'F':
                     temperatura_ext_celsius = (objeto_resposta['tempInt']['valor']-32) * 5 / 9
 
-                # pra evitar que encontre a temperatura com uma unidade além de celsius ou fahrenheit
+                # pra evitar que encontre a temperatura com uma unidade alem de celsius ou fahrenheit
                 if temperatura_ext_celsius != -1 and temperatura_int_celsius != -1:
-                    # define como ativo ou inativo
+                    # define climatizado como ativo ou inativo baseado na diferenca de temperatura
                     if temperatura_int_celsius < temperatura_ext_celsius:
                         objeto_resposta['climatizado'] = "ativo"
                     else:
